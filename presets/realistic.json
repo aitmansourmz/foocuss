@@ -1,5 +1,5 @@
 {
-    "default_model": "dreamshaperXL_turboDpmppSDE.safetensors",
+    "default_model": "realisticStockPhoto_v10.safetensors",
     "default_refiner": "",
     "default_refiner_switch": 0.5,
     "default_loras": [
@@ -35,7 +35,7 @@
     ],
     "default_aspect_ratio": "896*1152",
     "checkpoint_downloads": {
-        "dreamshaperXL_turboDpmppSDE.safetensors": "https://civitai.com/api/download/models/251662"
+        "realisticStockPhoto_v10.safetensors": "https://civitai.com/api/download/models/154593"
     },
     "embeddings_downloads": {},
     "lora_downloads": {
