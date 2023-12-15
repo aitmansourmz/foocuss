@@ -1,7 +1,6 @@
 import os
 import sys
 import ssl
-import ngrok
 
 print('[System ARGV] ' + str(sys.argv))
 
@@ -11,6 +10,9 @@ os.chdir(root)
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
+os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
+os.environ["NGROK_SERVER_PORT"] = "7865"
 
 import platform
 import fooocus_version
@@ -24,35 +26,6 @@ from modules.config import path_checkpoints, path_loras, path_vae_approx, path_f
 
 REINSTALL_ALL = False
 TRY_INSTALL_XFORMERS = False
-
-
-def connect(token, port, options):
-    account = None
-    if token is None:
-        token = 'None'
-    else:
-        if ':' in token:
-            # token = authtoken:username:password
-            token, username, password = token.split(':', 2)
-            account = f"{username}:{password}"
-
-    # For all options see: https://github.com/ngrok/ngrok-py/blob/main/examples/ngrok-connect-full.py
-    if not options.get('authtoken_from_env'):
-        options['authtoken'] = token
-    if account:
-        options['basic_auth'] = account
-    if not options.get('session_metadata'):
-        options['session_metadata'] = 'stable-diffusion-webui'
-
-
-    try:
-        public_url = ngrok.connect(f"127.0.0.1:{port}", **options).url()
-    except Exception as e:
-        print(f'Invalid ngrok authtoken? ngrok connection aborted due to: {e}\n'
-              f'Your token: {token}, get the right one on https://dashboard.ngrok.com/get-started/your-authtoken')
-    else:
-        print(f'ngrok connected to localhost:{port}! URL: {public_url}\n'
-               'You can use this link after the launch is complete.')
 
 
 def prepare_environment():
